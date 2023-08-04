@@ -1,4 +1,5 @@
 import 'package:fierbase_auth/bloc/bloc_login/login_cubit.dart';
+import 'package:fierbase_auth/bloc/bloc_register/register_cubit.dart';
 import 'package:fierbase_auth/screens/auth/launch_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,9 @@ class MyApp extends StatelessWidget {
              BlocProvider<LoginCubit>(
               create: (BuildContext context) => LoginCubit()..initState(),
             ),
+        BlocProvider<RegisterCubit>(
+          create: (BuildContext context) => RegisterCubit()..initState(),
+        ),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
