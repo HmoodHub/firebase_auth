@@ -13,13 +13,14 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     RegisterCubit bloc = RegisterCubit.get(context);
     return BlocConsumer<RegisterCubit, RegisterState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is RegisterSuccess) {
+          Get.back();
+        }
+      },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('Register'),
-            centerTitle: true,
-          ),
+          appBar: AppBar(),
           body: Form(
             key: bloc.formKey,
             child: ListView(
@@ -27,13 +28,17 @@ class RegisterScreen extends StatelessWidget {
               children: [
                 Text(
                   'Register Now',
-                  style: Theme.of(context).textTheme.headlineLarge,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                Text('Enter data to Register....',
-                    style: Theme.of(context).textTheme.headlineSmall),
+                Text(
+                  'enter data to Register in firebase Authentication....',
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.grey,
+                      ),
+                ),
                 const SizedBox(
                   height: 30,
                 ),
@@ -78,7 +83,9 @@ class RegisterScreen extends StatelessWidget {
                   height: 30,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    bloc.register();
+                  },
                   child: Text(
                     'Register',
                     style: Theme.of(context).textTheme.button,
@@ -96,7 +103,7 @@ class RegisterScreen extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(const LoginScreen());
+                        Get.back();
                       },
                       child: const Text(
                         ' Login',

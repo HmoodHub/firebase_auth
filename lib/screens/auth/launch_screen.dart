@@ -1,4 +1,9 @@
+import 'dart:async';
+
+import 'package:fierbase_auth/firebase/fb_auth/fb_auth.dart';
 import 'package:fierbase_auth/screens/auth/login_screen.dart';
+import 'package:fierbase_auth/screens/home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,12 +17,21 @@ class LaunchScreen extends StatefulWidget {
 
 class _LaunchScreenState extends State<LaunchScreen> {
 
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(const Duration(seconds: 3),(){
-      Get.off(()=>const LoginScreen());
+    Future.delayed(const Duration(seconds: 3),()async{
+      FirebaseAuth.instance
+          .authStateChanges()
+          .listen((User? user) {
+        if (user == null) {
+          Get.off(LoginScreen());
+        } else {
+          Get.off(HomeScreen());
+        }
+      });
     });
   }
   @override

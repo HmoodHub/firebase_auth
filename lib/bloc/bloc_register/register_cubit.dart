@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
+import '../../firebase/fb_auth/fb_auth.dart';
+
 part 'register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
@@ -29,4 +31,16 @@ class RegisterCubit extends Cubit<RegisterState> {
     isVisible = !isVisible;
     emit(RegisterVisibilityPass());
   }
+
+  void register()async{
+    emit(RegisterLoading());
+    bool loggedIn = await FBAuth.registerUser(email: emailController.text, password: passController.text);
+    if (loggedIn) {
+      emit(RegisterSuccess());
+    }  else{
+      emit(RegisterError());
+    }
+  }
+
+
 }

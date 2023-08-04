@@ -1,5 +1,6 @@
 import 'package:fierbase_auth/bloc/bloc_login/login_cubit.dart';
 import 'package:fierbase_auth/screens/auth/register_screen.dart';
+import 'package:fierbase_auth/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -14,7 +15,9 @@ class LoginScreen extends StatelessWidget {
     LoginCubit bloc = LoginCubit.get(context);
     return BlocConsumer<LoginCubit, LoginState>(
       listener: (context, state) {
-        // TODO: implement listener
+       if (state is LoginSuccess) {
+         Get.off(HomeScreen());
+       }
       },
       builder: (context, state) {
         return Scaffold(
@@ -34,10 +37,14 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Text('Enter data to Login....',
-                    style: Theme.of(context).textTheme.headlineSmall),
+                Text(
+                  'enter data to Login in firebase authentication app....',
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.grey,
+                      ),
+                ),
                 const SizedBox(
-                  height: 100,
+                  height: 50,
                 ),
                 textFormFieldApp(
                   controller: bloc.emailController,
@@ -76,7 +83,9 @@ class LoginScreen extends StatelessWidget {
                   height: 40,
                 ),
                 ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      bloc.login();
+                    },
                     child: Text(
                       'Login',
                       style: Theme.of(context).textTheme.button,
