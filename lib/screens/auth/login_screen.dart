@@ -84,7 +84,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      bloc.login();
+                      bloc.login(context);
                     },
                     child: Text(
                       'Login',

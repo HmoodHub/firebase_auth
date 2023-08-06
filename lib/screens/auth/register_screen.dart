@@ -84,7 +84,7 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    bloc.register();
+                    bloc.register(context);
                   },
                   child: Text(
                     'Register',

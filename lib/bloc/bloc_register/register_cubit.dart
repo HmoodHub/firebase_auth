@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:fierbase_auth/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
@@ -31,10 +32,16 @@ class RegisterCubit extends Cubit<RegisterState> {
     isVisible = !isVisible;
     emit(RegisterVisibilityPass());
   }
-
-  void register()async{
+  UserModel get user{
+    UserModel userModel = UserModel();
+    userModel.phone = phoneController.text;
+    userModel.email = emailController.text;
+    userModel.name = usernameController.text;
+    return userModel;
+  }
+  void register(context)async{
     emit(RegisterLoading());
-    bool loggedIn = await FBAuth.registerUser(email: emailController.text, password: passController.text);
+    bool loggedIn = await FBAuth.registerUser(context, email: emailController.text, password: passController.text,model: user);
     if (loggedIn) {
       emit(RegisterSuccess());
     }  else{

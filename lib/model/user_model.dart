@@ -1,6 +1,7 @@
-class User{
+class UserModel{
   String? name, email, phone;
-  User();
+  bool? isVerified;
+  UserModel();
 
 
   Map<String, dynamic> toMap(){
@@ -8,12 +9,14 @@ class User{
     map['name'] = name;
     map['email'] = email;
     map['phone'] = phone;
+    map['isVerified'] = isVerified;
     return map;
   }
 
-  User.fromJson(Map<String, dynamic> map){
+  UserModel.fromJson(Map<String, dynamic> map){
     name = map['name'];
-    email = map[email];
-    phone = map[phone];
+    email = map['email'];
+    phone = map['phone'];
+    isVerified = map ['isVerified'];
   }
 }

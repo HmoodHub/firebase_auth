@@ -20,16 +20,15 @@ class _LaunchScreenState extends State<LaunchScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(const Duration(seconds: 3),()async{
       FirebaseAuth.instance
           .authStateChanges()
           .listen((User? user) {
         if (user == null) {
-          Get.off(LoginScreen());
+          Get.off(const LoginScreen());
         } else {
-          Get.off(HomeScreen());
+          Get.off(const HomeScreen());
         }
       });
     });

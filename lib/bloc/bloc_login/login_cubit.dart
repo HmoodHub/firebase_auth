@@ -30,9 +30,9 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginVisibilityPass());
   }
 
-  void login()async{
+  void login(context)async{
     emit(LoginLoading());
-   bool loggedIn = await FBAuth.loginUser(email: emailController.text, password: passController.text);
+   bool loggedIn = await FBAuth.loginUser(context, email: emailController.text, password: passController.text);
    if (loggedIn) {
      emit(LoginSuccess());
    }  else{
