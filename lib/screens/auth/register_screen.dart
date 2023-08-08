@@ -1,10 +1,11 @@
+import 'package:fierbase_auth/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
 import '../../bloc/bloc_register/register_cubit.dart';
 import '../../widget/widget.dart';
-import 'login_screen.dart';
+
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -17,6 +18,9 @@ class RegisterScreen extends StatelessWidget {
         if (state is RegisterSuccess) {
           Get.back();
         }
+        if (state is RegisterGoogleSuccess) {
+          Get.off(HomeScreen());
+        }
       },
       builder: (context, state) {
         return Scaffold(
@@ -24,7 +28,7 @@ class RegisterScreen extends StatelessWidget {
           body: Form(
             key: bloc.formKey,
             child: ListView(
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               children: [
                 Text(
                   'Register Now',
@@ -44,9 +48,9 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 textFormFieldApp(
                   controller: bloc.usernameController,
-                  type: TextInputType.emailAddress,
+                  type: TextInputType.text,
                   hint: 'User name',
-                  prefixIcon: Icons.email,
+                  prefixIcon: Icons.person,
                 ),
                 const SizedBox(
                   height: 10,
@@ -92,7 +96,31 @@ class RegisterScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () async => bloc.registerGoogle(),
+                      icon: Image.asset('asset/images/google.png'),
+                      label: const Text('GOOGLE',style: TextStyle(color: Colors.black),),
+                    ),
+                    SizedBox(width: 10,),
+                    const Text(
+                      '- OR -',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: 10,),
+                    ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: Icon(Icons.facebook,color: Colors.blue,size: 30,),
+                      label: const Text('FACEBOOK',style: TextStyle(color: Colors.black),),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

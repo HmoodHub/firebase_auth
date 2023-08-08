@@ -6,6 +6,8 @@ import 'package:fierbase_auth/shared_pref/shared_pref.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:toast/toast.dart';
 
 import '../../widget/widget.dart';
@@ -14,6 +16,8 @@ class FBAuth {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
   static final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   static UserCredential? userCredential;
+  static final FacebookAuth _facebookAuth = FacebookAuth.instance;
+  static final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   static Future<bool> loginUser(BuildContext context,
       {required String email, required String password}) async {
@@ -75,12 +79,39 @@ class FBAuth {
 
   static Future<bool> verifiedEmail() async {
     if (_auth.currentUser != null) {
-      return _auth.currentUser
-      !.sendEmailVerification()
+      return _auth.currentUser!
+          .sendEmailVerification()
           .then((value) => true)
           .catchError((onError) => false);
-    }  else{
-    return false;
+    } else {
+      return false;
+    }
   }
+
+  static Future<User?> signInWithGoogle() async {
+    try{
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) return null;
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      UserCredential user = await _auth.signInWithCredential(credential);
+      return user.user;
+    }catch (e){
+      print('$e');
+      return null;
+    }
+  }
+
+  static Future<bool> signInWithFacebook() async {
+    final LoginResult loginResult = await _facebookAuth.login();
+    final OAuthCredential facebookAuthCredential =
+        FacebookAuthProvider.credential(loginResult.accessToken!.token);
+    return _auth
+        .signInWithCredential(facebookAuthCredential)
+        .then((value) => true)
+        .catchError((onError) => false);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:fierbase_auth/firebase/fb_auth/fb_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
@@ -38,5 +39,13 @@ class LoginCubit extends Cubit<LoginState> {
    }  else{
      emit(LoginError());
    }
+  }
+  void loginGoogle()async{
+    User? user = await FBAuth.signInWithGoogle();
+    if (user != null) {
+      emit(LoginGoogleSuccess());
+    }else{
+      emit(LoginGoogleError());
+    }
   }
 }

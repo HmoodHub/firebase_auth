@@ -15,9 +15,9 @@ class LoginScreen extends StatelessWidget {
     LoginCubit bloc = LoginCubit.get(context);
     return BlocConsumer<LoginCubit, LoginState>(
       listener: (context, state) {
-       if (state is LoginSuccess) {
-         Get.off(HomeScreen());
-       }
+        if (state is LoginSuccess || state is LoginGoogleSuccess) {
+          Get.off(HomeScreen());
+        }
       },
       builder: (context, state) {
         return Scaffold(
@@ -27,9 +27,6 @@ class LoginScreen extends StatelessWidget {
             child: ListView(
               padding: const EdgeInsets.all(15),
               children: [
-                const SizedBox(
-                  height: 50,
-                ),
                 Text(
                   'Welcome back',
                   style: Theme.of(context).textTheme.headlineLarge,
@@ -80,7 +77,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 20,
                 ),
                 ElevatedButton(
                     onPressed: () {
@@ -91,7 +88,31 @@ class LoginScreen extends StatelessWidget {
                       style: Theme.of(context).textTheme.button,
                     )),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () async => bloc.loginGoogle(),
+                      icon: Image.asset('asset/images/google.png'),
+                      label: const Text('GOOGLE',style: TextStyle(color: Colors.black),),
+                    ),
+                    SizedBox(width: 10,),
+                    const Text(
+                      '- OR -',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: 8,),
+                    ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: Icon(Icons.facebook,color: Colors.blue,size: 30,),
+                      label: const Text('FACEBOOK',style: TextStyle(color: Colors.black),),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

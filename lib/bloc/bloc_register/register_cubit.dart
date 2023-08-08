@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:fierbase_auth/model/user_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
@@ -46,6 +47,14 @@ class RegisterCubit extends Cubit<RegisterState> {
       emit(RegisterSuccess());
     }  else{
       emit(RegisterError());
+    }
+  }
+  void registerGoogle()async{
+    User? user = await FBAuth.signInWithGoogle();
+    if (user != null) {
+      emit(RegisterGoogleSuccess());
+    }else{
+      emit(RegisterGoogleError());
     }
   }
 

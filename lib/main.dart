@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          fontFamily: 'REM',
           useMaterial3: true,
         ),
         home: const LaunchScreen(),
